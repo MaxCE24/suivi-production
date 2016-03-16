@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Built-By: Omar LATRACH
+Build-Jdk: 1.7.0_09
+Created-By: Atos SE
