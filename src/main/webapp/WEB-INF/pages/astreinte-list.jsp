@@ -32,7 +32,7 @@
 					<td><a
 						href="${pageContext.request.contextPath}/astreinte/edit/${astreinte.id}.html">Modifier</a><br />
 						<a
-						href="${pageContext.request.contextPath}/shop/delete/${astreinte.id}.html">Supprimer</a><br />
+						href="${pageContext.request.contextPath}/astreinte/delete/${astreinte.id}.html">Supprimer</a><br />
 					</td>
 				</tr>
 			</c:forEach>

@@ -26,7 +26,7 @@
 				<tr>
 
 					<td>Nombre d'heures d'astreinte:</td>
-					<td><form:input path="nombreHeures" /></td>
+					<td><form:input type="number" min="0.5" path="nombreHeures" /></td>
 					<td><form:errors path="nombreHeures" cssStyle="color: red;" /></td>
 				</tr>
 

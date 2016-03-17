@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -64,14 +65,14 @@ public class Validation {
 		return id == null ? 0 : id.hashCode();
 	}
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "collaborateur_id")
 	private Collaborateur valideur;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date date;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "demande_d_achat_id")
 	private DemandeDAchat demandeDAchat;
 

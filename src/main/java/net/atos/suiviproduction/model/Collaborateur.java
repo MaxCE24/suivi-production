@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "collaborateurs")
@@ -57,8 +59,12 @@ public class Collaborateur {
 	}
 
 	@Column(nullable = false)
+	@Size(min = 2, max = 20, message = "Entrez le nom (min 2 max 20 char)")
+	@Pattern(regexp = "[A-Za-z ]*", message = "Le nom ne doit contenir que des lettres et des espaces.")
 	private String nom;
 	@Column(nullable = false)
+	@Size(min = 2, max = 20, message = "Entrez le prénom (min 2 max 20 char)")
+	@Pattern(regexp = "[A-Za-z ]*", message = "Le prénom ne doit contenir que des lettres et des espaces.")
 	private String prenom;
 	@Column(unique = true)
 	private EmailAddress emailAddress;

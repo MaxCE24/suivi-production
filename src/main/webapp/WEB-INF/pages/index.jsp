@@ -25,5 +25,19 @@
 			les collaborateurs</a><br />
 	</p>
 
+	<p>
+		<a href="${pageContext.request.contextPath}/demandeDAchat/create.html">Créer
+			une nouvelle demande d'achat</a><br /> <a
+			href="${pageContext.request.contextPath}/demandeDAchat/list.html">Consulter
+			les demandes d'achat</a><br />
+	</p>
+
+	<p>
+		<a href="${pageContext.request.contextPath}/validation/create.html">Ajouter
+			une validation</a><br /> <a
+			href="${pageContext.request.contextPath}/validation/list.html">Consulter
+			les validations</a><br />
+	</p>
+
 </body>
 </html>

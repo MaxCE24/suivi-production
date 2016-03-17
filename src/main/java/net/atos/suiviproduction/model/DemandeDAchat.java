@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "demandes_d_achat")
@@ -68,20 +71,22 @@ public class DemandeDAchat {
 	private Integer numero;
 	@Column(nullable = false)
 	private Date date;
+	@Size(max = 25, message = "Entrez une description (max 25 char)")
+	@Pattern(regexp = "[A-Za-z ]*", message = "La description ne doit contenir que des lettres et des espaces.")
 	private String description;
 	@Column(nullable = false)
 	private String statut;
 	@Column(name = "numero_de_bon_de_commande", nullable = false)
 	private Integer numeroDeBonDeCommande;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "collaborateur_id")
 	private Collaborateur collaborateur;
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "demande_d_achat_id")
 	private Set<Validation> validations = new HashSet<Validation>();
 
 	public DemandeDAchat(Integer numero, Date date, String description, String statut, Integer numeroDeBonDeCommande,
-			Collaborateur collaborateur, Set<Validation> validations) {
+			Collaborateur collaborateur) {
 		super();
 		this.numero = numero;
 		this.date = date;
@@ -89,7 +94,6 @@ public class DemandeDAchat {
 		this.statut = statut;
 		this.numeroDeBonDeCommande = numeroDeBonDeCommande;
 		this.collaborateur = collaborateur;
-		this.validations = validations;
 	}
 
 	public Set<Validation> getValidations() {

@@ -1,11 +1,13 @@
 package net.atos.suiviproduction.validation;
 
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import net.atos.suiviproduction.model.DemandeDAchat;
 
+@Component
 public class DemandeDAchatValidator implements Validator {
 
 	private final static String DEMANDES_D_ACHAT_NUMERO = "numero";

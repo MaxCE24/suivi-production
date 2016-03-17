@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -65,6 +67,7 @@ public class Astreinte {
 	}
 
 	@Column(unique = true, nullable = false)
+	@Size(min = 4, max = 4, message = "La référence doit contenir 4 caractères.")
 	private String reference;
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
@@ -74,7 +77,7 @@ public class Astreinte {
 	private Double nombreHeures;
 	@Column(nullable = false)
 	private String type;
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "collaborateur_id")
 	private Collaborateur collaborateur;
 

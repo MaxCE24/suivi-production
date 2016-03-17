@@ -19,33 +19,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import net.atos.suiviproduction.exception.AstreinteNotFound;
-import net.atos.suiviproduction.model.Astreinte;
+import net.atos.suiviproduction.exception.ValidationNotFound;
 import net.atos.suiviproduction.model.Collaborateur;
-import net.atos.suiviproduction.service.AstreinteService;
+import net.atos.suiviproduction.model.DemandeDAchat;
+import net.atos.suiviproduction.model.Validation;
 import net.atos.suiviproduction.service.CollaborateurService;
-import net.atos.suiviproduction.validation.AstreinteValidator;
+import net.atos.suiviproduction.service.DemandeDAchatService;
+import net.atos.suiviproduction.service.ValidationService;
+import net.atos.suiviproduction.validation.ValidationValidator;
 
 @Controller
-@RequestMapping(value = "/astreinte")
-public class AstreinteController {
+@RequestMapping(value = "/validation")
+public class ValidationController {
 
 	@Autowired
-	private AstreinteService astreinteService;
+	private ValidationService validationService;
+
+	@Autowired
+	private DemandeDAchatService demandeDAchatService;
 
 	@Autowired
 	private CollaborateurService collaborateurService;
 
-	@Autowired
-	private AstreinteValidator astreinteValidator;
+	private List<DemandeDAchat> demandesDAchatList;
 
 	private List<Collaborateur> collaborateursList;
 
-	// private SortedMap<Integer, Collaborateur> collaborateurs;
+	@Autowired
+	private ValidationValidator validationValidator;
 
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(astreinteValidator);
+		binder.setValidator(validationValidator);
 		// The date format to parse or output your dates
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		// Create a new CustomDateEditor
@@ -55,34 +60,34 @@ public class AstreinteController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView newAstreintePage() {
+	public ModelAndView newValidationPage() {
 
-		ModelAndView mav = new ModelAndView("astreinte-new", "astreinte", new Astreinte());
+		ModelAndView mav = new ModelAndView("validation-new", "validation", new Validation());
+
+		demandesDAchatList = demandeDAchatService.findAll();
 		collaborateursList = collaborateurService.findAll();
 
-		/*
-		 * collaborateurs = new TreeMap<Integer, Collaborateur>(); for
-		 * (Collaborateur collaborateur : collaborateursList) {
-		 * collaborateurs.put(collaborateur.getId(), collaborateur); }
-		 */
+		mav.addObject("demandesDAchat", demandesDAchatList);
 		mav.addObject("collaborateurs", collaborateursList);
+
 		return mav;
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ModelAndView createNewAstreinte(@ModelAttribute @Valid Astreinte astreinte, BindingResult result,
+	public ModelAndView createNewDemandeDAchat(@ModelAttribute @Valid Validation validation, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
-			ModelAndView mav = new ModelAndView("astreinte-new");
+			ModelAndView mav = new ModelAndView("validation-new");
+			mav.addObject("demandesDAchat", demandesDAchatList);
 			mav.addObject("collaborateurs", collaborateursList);
 			return mav;
 		}
 
 		ModelAndView mav = new ModelAndView();
-		String message = "La nouvelle astreinte " + astreinte.getReference() + " a été créée avec succès.";
+		String message = "La nouvelle validation a été prise en compte.";
 
-		astreinteService.create(astreinte);
+		validationService.create(validation);
 		mav.setViewName("redirect:/index.html");
 
 		redirectAttributes.addFlashAttribute("message", message);
@@ -90,45 +95,45 @@ public class AstreinteController {
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView astreinteListPage() {
-		ModelAndView mav = new ModelAndView("astreinte-list");
-		List<Astreinte> astreinteList = astreinteService.findAll();
-		mav.addObject("astreinteList", astreinteList);
+	public ModelAndView validationListPage() {
+		ModelAndView mav = new ModelAndView("validation-list");
+		List<Validation> validationList = validationService.findAll();
+		mav.addObject("validationList", validationList);
 		return mav;
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public ModelAndView editAstreintePage(@PathVariable Integer id) {
-		ModelAndView mav = new ModelAndView("astreinte-edit");
-		Astreinte astreinte = astreinteService.findById(id);
-		mav.addObject("astreinte", astreinte);
+	public ModelAndView editValidationPage(@PathVariable Integer id) {
+		ModelAndView mav = new ModelAndView("validation-edit");
+		Validation validation = validationService.findById(id);
+		mav.addObject("validation", validation);
 		return mav;
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public ModelAndView editAstreinte(@ModelAttribute @Valid Astreinte astreinte, BindingResult result,
-			@PathVariable Integer id, final RedirectAttributes redirectAttributes) throws AstreinteNotFound {
+	public ModelAndView editValidation(@ModelAttribute @Valid Validation validation, BindingResult result,
+			@PathVariable Integer id, final RedirectAttributes redirectAttributes) throws ValidationNotFound {
 
 		if (result.hasErrors())
-			return new ModelAndView("astreinte-edit");
+			return new ModelAndView("validation-edit");
 
 		ModelAndView mav = new ModelAndView("redirect:/index.html");
-		String message = "L'astreinte a été mise-à-jour avec succès.";
+		String message = "La validation a été prise en compte avec succès.";
 
-		astreinteService.update(astreinte);
+		validationService.update(validation);
 
 		redirectAttributes.addFlashAttribute("message", message);
 		return mav;
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteAstreinte(@PathVariable Integer id, final RedirectAttributes redirectAttributes)
-			throws AstreinteNotFound {
+	public ModelAndView deleteValidation(@PathVariable Integer id, final RedirectAttributes redirectAttributes)
+			throws ValidationNotFound {
 
 		ModelAndView mav = new ModelAndView("redirect:/index.html");
 
-		Astreinte astreinte = astreinteService.delete(id);
-		String message = "L'astreinte " + astreinte.getReference() + " a été supprimée avec succès.";
+		validationService.delete(id);
+		String message = "La validation a été retirée avec succès.";
 
 		redirectAttributes.addFlashAttribute("message", message);
 		return mav;
