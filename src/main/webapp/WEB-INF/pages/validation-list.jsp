@@ -8,7 +8,7 @@
 <title>Liste des validations</title>
 </head>
 <body>
-	<h1>Liste des validation</h1>
+	<h1>Liste des validations</h1>
 	<table style="text-align: center;" border="1px" cellpadding="0"
 		cellspacing="0">
 		<thead>

@@ -74,7 +74,7 @@ public class ValidationController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ModelAndView createNewDemandeDAchat(@ModelAttribute @Valid Validation validation, BindingResult result,
+	public ModelAndView createValidation(@ModelAttribute @Valid Validation validation, BindingResult result,
 			final RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {

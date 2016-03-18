@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.atos.suiviproduction.exception.AstreinteNotFound;
-import net.atos.suiviproduction.exception.CollaborateurNotFound;
 import net.atos.suiviproduction.model.Astreinte;
 import net.atos.suiviproduction.repository.AstreinteRepository;
 
@@ -53,7 +52,7 @@ public class AstreinteServiceImpl implements AstreinteService {
 	}
 
 	@Override
-	@Transactional(rollbackFor = CollaborateurNotFound.class)
+	@Transactional(rollbackFor = AstreinteNotFound.class)
 	public Astreinte update(Astreinte astreinte) throws AstreinteNotFound {
 		Astreinte updatedAstreinte = astreinteRepository.findOne(astreinte.getId());
 

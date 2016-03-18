@@ -39,5 +39,33 @@
 			les validations</a><br />
 	</p>
 
+	<p>
+		<a href="${pageContext.request.contextPath}/equipe/create.html">Ajouter
+			une équipe</a><br /> <a
+			href="${pageContext.request.contextPath}/equipe/list.html">Consulter
+			les équipes</a><br />
+	</p>
+
+	<p>
+		<a href="${pageContext.request.contextPath}/profil/create.html">Ajouter
+			un profil</a><br /> <a
+			href="${pageContext.request.contextPath}/profil/list.html">Consulter
+			les profils</a><br />
+	</p>
+
+	<p>
+		<a href="${pageContext.request.contextPath}/societe/create.html">Ajouter
+			une société</a><br /> <a
+			href="${pageContext.request.contextPath}/societe/list.html">Consulter
+			les sociétés</a><br />
+	</p>
+
+	<p>
+		<a href="${pageContext.request.contextPath}/sousTraitant/create.html">Ajouter
+			un sous-traitant</a><br /> <a
+			href="${pageContext.request.contextPath}/sousTraitant/list.html">Consulter
+			les sous-traitants</a><br />
+	</p>
+
 </body>
 </html>
